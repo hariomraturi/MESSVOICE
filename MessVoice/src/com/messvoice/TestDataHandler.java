@@ -17,5 +17,14 @@ public class TestDataHandler {
 
         // Test if voted
         System.out.println("Has Hariom voted? " + dh.hasVotedThisWeek("Hariom"));
+     // Test feedback
+        dh.saveFeedback("Hariom", "Dal Makhani", 4, "Good taste");
+        dh.saveFeedback("Hariom", "Poha", 5, "Best ever");
+
+        // Test average rating
+        System.out.println("Avg rating Dal Makhani: " + dh.getAverageRating("Dal Makhani"));
+        System.out.println("Avg rating Poha: " + dh.getAverageRating("Poha"));
+        new PreferencesScreen(null,"Hariom");
+        new VotingScreen(null,"Hariom");
     }
 }
