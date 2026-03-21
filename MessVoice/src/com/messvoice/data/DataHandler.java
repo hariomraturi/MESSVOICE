@@ -52,10 +52,11 @@ public class DataHandler {
     }
  // Save feedback
     public void saveFeedback(String studentName, String dish, int rating, String comment) {
+        System.out.println("Trying to save feedback: " + studentName + " - " + dish + " - " + rating);
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(FEEDBACK_FILE, true))) {
             writer.write(studentName + "," + dish + "," + rating + "," + comment.replace(",", " "));
             writer.newLine();
-            System.out.println("Feedback saved for " + studentName);
+            System.out.println("Feedback saved successfully!");
         } catch (IOException e) {
             System.err.println("Error saving feedback: " + e.getMessage());
         }
@@ -116,6 +117,58 @@ public class DataHandler {
         items.add(new MenuItem("Dal Makhani", "Monday Lunch", "veg"));
         items.add(new MenuItem("Rajma", "Monday Lunch", "veg"));
         return items;
+    }
+    public List<String> getLowRatedDishes(double threshold) {
+        List<String> lowRated = new ArrayList<>();
+        Map<String, Double> ratings = getAverageRatingPerDish();
+        for (Map.Entry<String, Double> entry : ratings.entrySet()) {
+            if (entry.getValue() < threshold) {
+                lowRated.add(entry.getKey());
+            }
+        }
+        return lowRated;
+    }
+    public Map<String, Double> getAverageRatingPerDish() {
+        Map<String, Double> averages = new HashMap<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(FEEDBACK_FILE))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(",");
+                if (parts.length >= 3) {
+                    String dish = parts[1].trim();
+                    int rating = Integer.parseInt(parts[2].trim());
+                    averages.put(dish, averages.getOrDefault(dish, 0.0) + rating);
+                    // Wait, this is count + sum, need to adjust
+                    // Better: use two maps or count separately
+                    // Simple version for now (average per dish)
+                }
+            }
+        } catch (IOException | NumberFormatException e) {
+            e.printStackTrace();
+        }
+        // To make it correct, let's calculate properly
+        Map<String, Integer> sumMap = new HashMap<>();
+        Map<String, Integer> countMap = new HashMap<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(FEEDBACK_FILE))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(",");
+                if (parts.length >= 3) {
+                    String dish = parts[1].trim();
+                    int rating = Integer.parseInt(parts[2].trim());
+                    sumMap.put(dish, sumMap.getOrDefault(dish, 0) + rating);
+                    countMap.put(dish, countMap.getOrDefault(dish, 0) + 1);
+                }
+            }
+        } catch (IOException | NumberFormatException e) {
+            e.printStackTrace();
+        }
+        for (String dish : sumMap.keySet()) {
+            int sum = sumMap.get(dish);
+            int count = countMap.get(dish);
+            averages.put(dish, count == 0 ? 0.0 : (double) sum / count);
+        }
+        return averages;
     }
     
 }

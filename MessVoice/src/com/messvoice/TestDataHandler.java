@@ -24,7 +24,12 @@ public class TestDataHandler {
         // Test average rating
         System.out.println("Avg rating Dal Makhani: " + dh.getAverageRating("Dal Makhani"));
         System.out.println("Avg rating Poha: " + dh.getAverageRating("Poha"));
+        new StudentDashboard("Hariom");
         new PreferencesScreen(null,"Hariom");
+        
         new VotingScreen(null,"Hariom");
+        
+        
+        
     }
 }
