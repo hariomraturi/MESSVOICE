@@ -37,7 +37,7 @@ public class DBConnection {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
+    } 
     
     // Test connection (call this in main to verify)
     public static boolean testConnection() {

@@ -75,7 +75,7 @@ public class TodayMenuScreen extends JDialog {
         bottomPanel.add(cancelBtn);
         add(bottomPanel, BorderLayout.SOUTH);
         
-        setVisible(true);
+        setVisible(true); 
     }
     
  // Modified saveMenu method

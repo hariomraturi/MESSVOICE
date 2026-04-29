@@ -1,23 +1,39 @@
 package com.messvoice.model;
-import java.time.LocalDate;
 
 public class Student {
-	private String studentName;
-    private String dishName;
-    private LocalDate voteDate;
-
+    private int studentId;
+    private String rollNumber;
+    private String name;
+    
     public Student() {}
-
-    public Student(String studentName, String dishName, LocalDate voteDate) {
-        this.studentName = studentName;
-        this.dishName = dishName;
-        this.voteDate = voteDate;
+    
+    public Student(int studentId, String rollNumber, String name) {
+        this.studentId = studentId;
+        this.rollNumber = rollNumber;
+        this.name = name;
     }
-
-    public String getStudentName() { return studentName; }
-    public void setStudentName(String studentName) { this.studentName = studentName; }
-    public String getDishName() { return dishName; }
-    public void setDishName(String dishName) { this.dishName = dishName; }
-    public LocalDate getVoteDate() { return voteDate; }
-    public void setVoteDate(LocalDate voteDate) { this.voteDate = voteDate; }
+    
+    public int getStudentId() {
+        return studentId;
+    }
+     
+    public void setStudentId(int studentId) {
+        this.studentId = studentId;
+    }
+    
+    public String getRollNumber() {
+        return rollNumber;
+    }
+    
+    public void setRollNumber(String rollNumber) {
+        this.rollNumber = rollNumber;
+    }
+    
+    public String getName() {
+        return name;
+    }
+    
+    public void setName(String name) {
+        this.name = name;
+    }
 }

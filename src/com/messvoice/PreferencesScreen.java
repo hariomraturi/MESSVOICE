@@ -2,58 +2,85 @@ package com.messvoice;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 import com.messvoice.data.DataHandler;
 
 public class PreferencesScreen extends JDialog {
-    private DataHandler dh = new DataHandler();
-    private String studentName;
-    private JCheckBox vegOnly, noOnion, noGarlic, noDairy, jainFood;
-
-    public PreferencesScreen(JFrame parent, String studentName) {
-        super(parent, "My Preferences", true);
-        this.studentName = studentName;
-        setSize(350, 300);
+    private DataHandler dh;
+    private String rollNumber;
+    private JCheckBox vegOnly, noOnion, noGarlic;
+    
+    public PreferencesScreen(JFrame parent, String rollNumber) {
+        super(parent, "Dietary Preferences", true);
+        this.rollNumber=rollNumber;
+        
+        dh = new DataHandler();
+        
+        setSize(400, 300);
         setLocationRelativeTo(parent);
         setLayout(new BorderLayout());
-
-        JLabel title = new JLabel("Set Your Preferences", JLabel.CENTER);
+        
+        // Title
+        JLabel title = new JLabel("Set Your Dietary Preferences", JLabel.CENTER);
         title.setFont(new Font("Arial", Font.BOLD, 18));
-
-        JPanel panel = new JPanel(new GridLayout(6, 1, 10, 10));
-        vegOnly = new JCheckBox("Vegetarian only");
-        noOnion = new JCheckBox("No onion");
-        noGarlic = new JCheckBox("No garlic");
-        noDairy = new JCheckBox("No dairy");
-        jainFood = new JCheckBox("Jain food");
-
+        title.setForeground(new Color(41, 128, 185));
+        add(title, BorderLayout.NORTH);
+        
+        // Checkboxes
+        JPanel panel = new JPanel(new GridLayout(3, 1, 10, 10));
+        panel.setBorder(BorderFactory.createEmptyBorder(50, 50, 50, 50));
+        
+        vegOnly = new JCheckBox("Vegetarian Only");
+        vegOnly.setFont(new Font("Arial", Font.PLAIN, 14));
+        
+        noOnion = new JCheckBox("No Onion");
+        noOnion.setFont(new Font("Arial", Font.PLAIN, 14));
+        
+        noGarlic = new JCheckBox("No Garlic");
+        noGarlic.setFont(new Font("Arial", Font.PLAIN, 14));
+        
         panel.add(vegOnly);
         panel.add(noOnion);
         panel.add(noGarlic);
-        panel.add(noDairy);
-        panel.add(jainFood);
-
-        JButton saveBtn = new JButton("Save Preferences");
-        saveBtn.addActionListener(e -> savePreferences());
-
-        add(title, BorderLayout.NORTH);
+        
         add(panel, BorderLayout.CENTER);
-        add(saveBtn, BorderLayout.SOUTH);
-
+        
+        // Buttons
+        JPanel buttonPanel = new JPanel();
+        
+        JButton saveBtn = new JButton("Save Preferences");
+        saveBtn.setBackground(new Color(46, 204, 113));
+        saveBtn.setForeground(Color.WHITE);
+        saveBtn.addActionListener(e -> savePreferences());
+        
+        JButton cancelBtn = new JButton("Cancel");
+        cancelBtn.addActionListener(e -> dispose());
+        
+        buttonPanel.add(saveBtn);
+        buttonPanel.add(cancelBtn);
+        add(buttonPanel, BorderLayout.SOUTH);
+        
+        // Load existing preferences
+        loadPreferences();
+        
         setVisible(true);
     }
-
+     
+    private void loadPreferences() {
+        List<String> prefs = dh.getStudentPreferences(rollNumber);
+        vegOnly.setSelected(prefs.contains("vegetarian_only"));
+        noOnion.setSelected(prefs.contains("no_onion"));
+        noGarlic.setSelected(prefs.contains("no_garlic"));
+    }
+    
     private void savePreferences() {
         List<String> prefs = new ArrayList<>();
         if (vegOnly.isSelected()) prefs.add("vegetarian_only");
         if (noOnion.isSelected()) prefs.add("no_onion");
         if (noGarlic.isSelected()) prefs.add("no_garlic");
-        if (noDairy.isSelected()) prefs.add("no_dairy");
-        if (jainFood.isSelected()) prefs.add("jain_food");
-
-        dh.saveStudentPreferences(studentName, prefs);
+        
+        dh.saveStudentPreferences(rollNumber, prefs);
         JOptionPane.showMessageDialog(this, "Preferences saved successfully!");
         dispose();
     }

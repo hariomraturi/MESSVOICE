@@ -1,23 +1,34 @@
 package com.messvoice.model;
 
 public class MenuItem {
-	 private String dishName;
-	    private String dayMeal;
-	    private String type;
-
-	    public MenuItem() {}
-
-	    public MenuItem(String dishName, String dayMeal, String type) {
-	        this.dishName = dishName;
-	        this.dayMeal = dayMeal;
-	        this.type = type;
-	    }
-
-	    public String getDishName() { return dishName; }
-	    public void setDishName(String dishName) { this.dishName = dishName; }
-	    public String getDayMeal() { return dayMeal; }
-	    public void setDayMeal(String dayMeal) { this.dayMeal = dayMeal; }
-	    public String getType() { return type; }
-	    public void setType(String type) { this.type = type; }
-
+    private int id;
+    private String dishName;
+    private String mealType;
+    private String category;
+    private boolean isAvailable;
+    
+    public MenuItem() {}
+    
+    public MenuItem(int id, String dishName, String mealType, String category) {
+        this.id = id;
+        this.dishName = dishName;
+        this.mealType = mealType;
+        this.category = category;
+        this.isAvailable = true;
+    } 
+    
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
+    
+    public String getDishName() { return dishName; }
+    public void setDishName(String dishName) { this.dishName = dishName; }
+    
+    public String getMealType() { return mealType; }
+    public void setMealType(String mealType) { this.mealType = mealType; }
+    
+    public String getCategory() { return category; }
+    public void setCategory(String category) { this.category = category; }
+    
+    public boolean isAvailable() { return isAvailable; }
+    public void setAvailable(boolean available) { isAvailable = available; }
 }
